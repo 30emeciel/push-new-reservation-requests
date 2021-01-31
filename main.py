@@ -34,24 +34,44 @@ def from_firestore(event, context):
     push_new_reservation_request_to_slack(resource_string)
 
 
+SLACK_DATE_FORMAT = "date"
+
+
+def slack_data_format(dt):
+    return f"<!date^{int(dt.timestamp())}^{{{SLACK_DATE_FORMAT}}}|NA>"
+
+
+def coliving_request_format(request):
+    return f"""\
+du {slack_data_format(request.arrival_date)} \
+au {slack_data_format(request.departure_date)} \
+({request.number_of_nights} nuit{"s" if request.number_of_nights > 1 else ""})\n
+"""
+
+
+def coworking_request_format(request):
+    return f"""\
+le {slack_data_format(request.arrival_date)}\
+"""
+
+
 def push_new_reservation_request_to_slack(doc_path):
     request_ref = db.document(doc_path)
     pax_ref = request_ref.parent.parent
     pax_doc, request_doc = pax_ref.get(), request_ref.get()
     assert pax_doc.exists and request_doc.exists
 
-    request_data = DotMap(request_doc.to_dict(), _dynamic=False)
-    pax_data = DotMap(pax_doc.to_dict(), _dynamic=False)
-    if request_data.state != "PENDING_REVIEW":
+    request = DotMap(request_doc.to_dict(), _dynamic=False)
+    pax = DotMap(pax_doc.to_dict(), _dynamic=False)
+    if request.state != "PENDING_REVIEW":
         log.info(f"request 'state' != PENDING_REVIEW, ignoring")
         return
 
     text = f"""\
-Nouvelle réservation de {pax_data.name}, produit {request_data.kind} \
-du <!date^{int(request_data.arrival_date.timestamp())}^{{date_long}}|NA> \
-au <!date^{int(request_data.departure_date.timestamp())}^{{date_long}}|NA> \
-({request_data.number_of_nights} nuits)
-"""
+Nouvelle réservation de *{pax.name}*, produit *{request.kind}* :\n"""
+
+    text += coliving_request_format(request) if request.kind == "COLIVING" else coworking_request_format(request)
+
     slack.chat_postMessage(
         channel='null',
         text=text,
