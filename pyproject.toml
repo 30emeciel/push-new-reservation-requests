@@ -2,7 +2,7 @@
 name = "push-new-reservation-requests"
 version = "1.0.0"
 description = ""
-authors = ["30ème Ciel <admin@30emeciel.fr>"]
+authors = ["Alyosha <alyosha@30emeciel.fr>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
