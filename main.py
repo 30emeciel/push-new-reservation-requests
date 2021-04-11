@@ -1,12 +1,14 @@
 import logging
-from os import environ
+import os
 
 import firebase_admin
-from dotmap import DotMap
+from box import Box
 from firebase_admin import credentials
 from firebase_admin import firestore
 # Use the application default credentials
 from slack_sdk import WebClient
+
+from slack_messages import generate_new_reservation_slack_message
 
 cred = credentials.ApplicationDefault()
 firebase_admin.initialize_app(cred, {
@@ -15,7 +17,8 @@ firebase_admin.initialize_app(cred, {
 
 log = logging.getLogger(__name__)
 db = firestore.client()
-slack = WebClient(token=environ['SLACK_BOT_TOKEN'])
+slack = WebClient(token=os.environ['SLACK_BOT_TOKEN'])
+slack_channel = os.environ['SLACK_CHANNEL']
 
 
 def from_firestore(event, context):
@@ -34,47 +37,29 @@ def from_firestore(event, context):
     push_new_reservation_request_to_slack(resource_string)
 
 
-SLACK_DATE_FORMAT = "date"
-
-
-def slack_data_format(dt):
-    return f"<!date^{int(dt.timestamp())}^{{{SLACK_DATE_FORMAT}}}|NA>"
-
-
-def coliving_request_format(request):
-    return f"""\
-du {slack_data_format(request.arrival_date)} \
-au {slack_data_format(request.departure_date)} \
-({request.number_of_nights} nuit{"s" if request.number_of_nights > 1 else ""})\n
-"""
-
-
-def coworking_request_format(request):
-    return f"""\
-le {slack_data_format(request.arrival_date)}\
-"""
-
-
 def push_new_reservation_request_to_slack(doc_path):
     request_ref = db.document(doc_path)
     pax_ref = request_ref.parent.parent
     pax_doc, request_doc = pax_ref.get(), request_ref.get()
     assert pax_doc.exists and request_doc.exists
 
-    request = DotMap(request_doc.to_dict(), _dynamic=False)
-    pax = DotMap(pax_doc.to_dict(), _dynamic=False)
+    request = Box(request_doc.to_dict())
+    pax = Box(pax_doc.to_dict())
     if request.state != "PENDING_REVIEW":
         log.info(f"request 'state' != PENDING_REVIEW, ignoring")
         return
 
-    text = f"""\
-Nouvelle réservation de *{pax.name}*, produit *{request.kind}* :\n"""
-
-    text += coliving_request_format(request) if request.kind == "COLIVING" else coworking_request_format(request)
+    data = {
+        "pax": pax,
+        "request": request
+    }
+    txt = generate_new_reservation_slack_message(data)
 
     slack.chat_postMessage(
-        channel='null',
-        text=text,
+        channel=slack_channel,
+        text=txt,
         link_names=False,
         attachments=[]
     )
+
+
