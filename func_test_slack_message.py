@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 if __name__ == "__main__":
     load_dotenv()
-    from slack_messages import generate_new_reservation_slack_message
+    from message_templates import generate_new_reservation_slack_message
 
     pax = Box({
         "name": "Pax name"
@@ -21,16 +21,8 @@ if __name__ == "__main__":
         "request": request,
     }
     txt = generate_new_reservation_slack_message(data)
-    print(txt)
+    import slack_message
+    slack_message.send_slack_message(txt)
 
-    request = Box({
-        "kind": "COWORKING",
-        "arrival_date": datetime(2021, 2, 19, tzinfo=timezone.utc),
-    })
-    data = {
-        "pax": pax,
-        "request": request,
-    }
 
-    txt = generate_new_reservation_slack_message(data)
-    print(txt)
+

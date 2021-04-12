@@ -1,8 +1,8 @@
-Nouvelle réservation de *{{pax.name}}*, produit *{{request.kind}}* :
+Nouvelle réservation de *{{pax.name}}*, produit *{{request.kind}}* en attente de validation :
 {% if request.kind == "COLIVING" -%}
 du {{request.arrival_date|slackdateformat}} au {{request.departure_date|slackdateformat}} ({{request.number_of_nights}} nuit{{"s" if request.number_of_nights > 1 else ""}})
 {%- else -%}
 le {{request.arrival_date|slackdateformat}}
 {%- endif %}
 
-<https://coliv.30emeciel.fr/supervisor/pax|Voir les participantes en attente de validation>
+<https://coliv.30emeciel.fr/supervisor/reservations|Voir les réservations en attente de validation>

@@ -1,14 +1,14 @@
 import logging
-import os
 
 import firebase_admin
 from box import Box
 from firebase_admin import credentials
 from firebase_admin import firestore
-# Use the application default credentials
-from slack_sdk import WebClient
 
-from slack_messages import generate_new_reservation_slack_message
+from message_templates import generate_new_reservation_slack_message
+from slack_message import send_slack_message
+
+# Use the application default credentials
 
 cred = credentials.ApplicationDefault()
 firebase_admin.initialize_app(cred, {
@@ -17,8 +17,6 @@ firebase_admin.initialize_app(cred, {
 
 log = logging.getLogger(__name__)
 db = firestore.client()
-slack = WebClient(token=os.environ['SLACK_BOT_TOKEN'])
-slack_channel = os.environ['SLACK_CHANNEL']
 
 
 def from_firestore(event, context):
@@ -34,10 +32,10 @@ def from_firestore(event, context):
     # now print out the entire event object
     print(str(event))
 
-    push_new_reservation_request_to_slack(resource_string)
+    push_new_reservation_request_to_slack(resource_string, Box(event))
 
 
-def push_new_reservation_request_to_slack(doc_path):
+def push_new_reservation_request_to_slack(doc_path, event):
     request_ref = db.document(doc_path)
     pax_ref = request_ref.parent.parent
     pax_doc, request_doc = pax_ref.get(), request_ref.get()
@@ -55,11 +53,6 @@ def push_new_reservation_request_to_slack(doc_path):
     }
     txt = generate_new_reservation_slack_message(data)
 
-    slack.chat_postMessage(
-        channel=slack_channel,
-        text=txt,
-        link_names=False,
-        attachments=[]
-    )
+    send_slack_message(txt)
 
 
