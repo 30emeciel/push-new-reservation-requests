@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 if __name__ == "__main__":
     load_dotenv()
-    from message_templates import generate_new_reservation_slack_message
+    from core.notification_message_templates import generate_notification_message, NEW_RESERVATION
 
     pax = Box({
         "name": "Pax name"
@@ -20,7 +20,7 @@ if __name__ == "__main__":
         "pax": pax,
         "request": request,
     }
-    txt = generate_new_reservation_slack_message(data)
+    txt = generate_notification_message(NEW_RESERVATION, data)
     import slack_message
     slack_message.send_slack_message(txt)
 

@@ -61,6 +61,38 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
+name = "core"
+version = "2"
+description = ""
+category = "main"
+optional = false
+python-versions = "^3.9"
+develop = false
+
+[package.dependencies]
+Babel = "^2.9.0"
+docutils = "^0.17.1"
+firebase-admin = "^4.5.3"
+Jinja2 = "^2.11.3"
+python-box = "^5.3.0"
+sendgrid = "^6.7.0"
+slack-sdk = "^3.5.0"
+
+[package.source]
+type = "git"
+url = "https://github.com/30emeciel/py-core.git"
+reference = "v2"
+resolved_reference = "d193f5035e6e912e5404989e9723b97e8a6f10d2"
+
+[[package]]
+name = "docutils"
+version = "0.17.1"
+description = "Docutils -- Python Documentation Utilities"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+
+[[package]]
 name = "firebase-admin"
 version = "4.5.3"
 description = "Firebase Admin Python SDK"
@@ -100,7 +132,7 @@ grpcio-gcp = ["grpcio-gcp (>=0.2.2)"]
 
 [[package]]
 name = "google-api-python-client"
-version = "2.1.0"
+version = "2.2.0"
 description = "Google API Client Library for Python"
 category = "main"
 optional = false
@@ -116,7 +148,7 @@ uritemplate = ">=3.0.0,<4dev"
 
 [[package]]
 name = "google-auth"
-version = "1.28.1"
+version = "1.30.0"
 description = "Google Authentication Library"
 category = "main"
 optional = false
@@ -131,6 +163,7 @@ six = ">=1.9.0"
 [package.extras]
 aiohttp = ["aiohttp (>=3.6.2,<4.0.0dev)"]
 pyopenssl = ["pyopenssl (>=20.0.0)"]
+reauth = ["pyu2f (>=0.1.5)"]
 
 [[package]]
 name = "google-auth-httplib2"
@@ -177,7 +210,7 @@ pytz = "*"
 
 [[package]]
 name = "google-cloud-storage"
-version = "1.37.1"
+version = "1.38.0"
 description = "Google Cloud Storage API client library"
 category = "main"
 optional = false
@@ -384,14 +417,22 @@ toml = ["toml"]
 
 [[package]]
 name = "python-dotenv"
-version = "0.15.0"
-description = "Add .env support to your django/flask apps in development and deployments"
+version = "0.17.0"
+description = "Read key-value pairs from a .env file and set them as environment variables"
 category = "dev"
 optional = false
 python-versions = "*"
 
 [package.extras]
 cli = ["click (>=5.0)"]
+
+[[package]]
+name = "python-http-client"
+version = "3.3.2"
+description = "HTTP REST client, simplified for Python"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "pytz"
@@ -431,6 +472,18 @@ python-versions = ">=3.5, <4"
 pyasn1 = ">=0.1.3"
 
 [[package]]
+name = "sendgrid"
+version = "6.7.0"
+description = "Twilio SendGrid library for Python"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+
+[package.dependencies]
+python-http-client = ">=3.2.1"
+starkbank-ecdsa = ">=1.0.0"
+
+[[package]]
 name = "six"
 version = "1.15.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -440,7 +493,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "slack-sdk"
-version = "3.4.2"
+version = "3.5.0"
 description = "The Slack API Platform SDK for Python"
 category = "main"
 optional = false
@@ -449,6 +502,14 @@ python-versions = ">=3.6.0"
 [package.extras]
 optional = ["aiodns (>1.0)", "aiohttp (>=3.7.3,<4)", "boto3 (<=2)", "SQLAlchemy (>=1,<2)", "websockets (>=8,<9)", "websocket-client (>=0.57)"]
 testing = ["pytest (>=5.4,<6)", "pytest-asyncio (<1)", "Flask-Sockets (>=0.2,<1)", "pytest-cov (>=2,<3)", "codecov (>=2,<3)", "flake8 (>=3,<4)", "black (==20.8b1)", "psutil (>=5,<6)", "databases (>=0.3)"]
+
+[[package]]
+name = "starkbank-ecdsa"
+version = "1.1.0"
+description = "A lightweight and fast pure python ECDSA library"
+category = "main"
+optional = false
+python-versions = "*"
 
 [[package]]
 name = "uritemplate"
@@ -473,8 +534,8 @@ brotli = ["brotlipy (>=0.6.0)"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.8"
-content-hash = "3ee50dd29cea70ec1a25a090f6a6dbfbc777a91e657c7316de4a72ab1d81fc54"
+python-versions = "^3.9"
+content-hash = "eb396ae14508edba02e647915837a29a35247c26a3e76b9e3ff6f0bd0b7e2dea"
 
 [metadata.files]
 babel = [
@@ -536,6 +597,11 @@ chardet = [
     {file = "chardet-4.0.0-py2.py3-none-any.whl", hash = "sha256:f864054d66fd9118f2e67044ac8981a54775ec5b67aed0441892edb553d21da5"},
     {file = "chardet-4.0.0.tar.gz", hash = "sha256:0d6f53a15db4120f2b08c94f11e7d93d2c911ee118b6b30a04ec3ee8310179fa"},
 ]
+core = []
+docutils = [
+    {file = "docutils-0.17.1-py2.py3-none-any.whl", hash = "sha256:cf316c8370a737a022b72b56874f6602acf974a37a9fba42ec2876387549fc61"},
+    {file = "docutils-0.17.1.tar.gz", hash = "sha256:686577d2e4c32380bb50cbb22f575ed742d58168cee37e99117a854bcd88f125"},
+]
 firebase-admin = [
     {file = "firebase_admin-4.5.3-py3-none-any.whl", hash = "sha256:471045bf72bb68ccf6d9d19a35836609b7d525fcdac73aa619d274e4c5585e0a"},
     {file = "firebase_admin-4.5.3.tar.gz", hash = "sha256:f0c1c9a6e56b497c8bbaa55a679a402f79c34c2c24971b11ea909031b520ed32"},
@@ -545,12 +611,12 @@ google-api-core = [
     {file = "google_api_core-1.26.3-py2.py3-none-any.whl", hash = "sha256:099762d4b4018cd536bcf85136bf337957da438807572db52f21dc61251be089"},
 ]
 google-api-python-client = [
-    {file = "google-api-python-client-2.1.0.tar.gz", hash = "sha256:f9ac377efe69571aea1acc9e15760d4204aca23c4464eb63f963ae4defc95d97"},
-    {file = "google_api_python_client-2.1.0-py2.py3-none-any.whl", hash = "sha256:921fe10cdff22d1f5b8af7473f9a298efb991fb6ea67dadd6c37fbecfb0575f4"},
+    {file = "google-api-python-client-2.2.0.tar.gz", hash = "sha256:29447c8e95c23ae76fcf9817432f5ed015495513abeac564905640a0ef7d1898"},
+    {file = "google_api_python_client-2.2.0-py2.py3-none-any.whl", hash = "sha256:9edac3b071588e08e4b3d14455f2a3c2a57637cab6535f70cff0c01200e22909"},
 ]
 google-auth = [
-    {file = "google-auth-1.28.1.tar.gz", hash = "sha256:70b39558712826e41f65e5f05a8d879361deaf84df8883e5dd0ec3d0da6ab66e"},
-    {file = "google_auth-1.28.1-py2.py3-none-any.whl", hash = "sha256:186fe2564634d67fbbb64f3daf8bc8c9cecbb2a7f535ed1a8a71795e50db8d87"},
+    {file = "google-auth-1.30.0.tar.gz", hash = "sha256:9ad25fba07f46a628ad4d0ca09f38dcb262830df2ac95b217f9b0129c9e42206"},
+    {file = "google_auth-1.30.0-py2.py3-none-any.whl", hash = "sha256:588bdb03a41ecb4978472b847881e5518b5d9ec6153d3d679aa127a55e13b39f"},
 ]
 google-auth-httplib2 = [
     {file = "google-auth-httplib2-0.1.0.tar.gz", hash = "sha256:a07c39fd632becacd3f07718dfd6021bf396978f03ad3ce4321d060015cc30ac"},
@@ -565,8 +631,8 @@ google-cloud-firestore = [
     {file = "google_cloud_firestore-2.1.0-py2.py3-none-any.whl", hash = "sha256:64f679208ce6910e247aaf9424597f3b6f833a4fee30e81f163306cb5c316d33"},
 ]
 google-cloud-storage = [
-    {file = "google-cloud-storage-1.37.1.tar.gz", hash = "sha256:e06a4797c87ac73c4a74801539fdf0a91761c3014281ff58b7b29f15b34c206e"},
-    {file = "google_cloud_storage-1.37.1-py2.py3-none-any.whl", hash = "sha256:63a9dab155bf81c51354db3d11f3e83a1db7d58eff453f1ce51ffa565d32617b"},
+    {file = "google-cloud-storage-1.38.0.tar.gz", hash = "sha256:162011d66f64b8dc5d7936609a5daf0066cc521231546aea02c126a5559446c4"},
+    {file = "google_cloud_storage-1.38.0-py2.py3-none-any.whl", hash = "sha256:69499560ec8234339ce831704419a2288c409a422f6e9ed1facc9345412ee637"},
 ]
 google-crc32c = [
     {file = "google-crc32c-1.1.2.tar.gz", hash = "sha256:dff5bd1236737f66950999d25de7a78144548ebac7788d30ada8c1b6ead60b27"},
@@ -828,8 +894,11 @@ python-box = [
     {file = "python_box-5.3.0-py3-none-any.whl", hash = "sha256:f2a531f9f5bbef078c175fad6abb31e9b59d40d121ea79993197e6bb221c6be6"},
 ]
 python-dotenv = [
-    {file = "python-dotenv-0.15.0.tar.gz", hash = "sha256:587825ed60b1711daea4832cf37524dfd404325b7db5e25ebe88c495c9f807a0"},
-    {file = "python_dotenv-0.15.0-py2.py3-none-any.whl", hash = "sha256:0c8d1b80d1a1e91717ea7d526178e3882732420b03f08afea0406db6402e220e"},
+    {file = "python-dotenv-0.17.0.tar.gz", hash = "sha256:471b782da0af10da1a80341e8438fca5fadeba2881c54360d5fd8d03d03a4f4a"},
+    {file = "python_dotenv-0.17.0-py2.py3-none-any.whl", hash = "sha256:49782a97c9d641e8a09ae1d9af0856cc587c8d2474919342d5104d85be9890b2"},
+]
+python-http-client = [
+    {file = "python_http_client-3.3.2.tar.gz", hash = "sha256:67e6a7bea19b03e14dc971480d3531b80becfc203d6c69478561bf7844d52661"},
 ]
 pytz = [
     {file = "pytz-2021.1-py2.py3-none-any.whl", hash = "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"},
@@ -843,13 +912,20 @@ rsa = [
     {file = "rsa-4.7.2-py3-none-any.whl", hash = "sha256:78f9a9bf4e7be0c5ded4583326e7461e3a3c5aae24073648b4bdfa797d78c9d2"},
     {file = "rsa-4.7.2.tar.gz", hash = "sha256:9d689e6ca1b3038bc82bf8d23e944b6b6037bc02301a574935b2dd946e0353b9"},
 ]
+sendgrid = [
+    {file = "sendgrid-6.7.0-py3-none-any.whl", hash = "sha256:273bdc0abec649bf6319df7b6267980f79e53ab64e92906d65eea6d4330d00b4"},
+    {file = "sendgrid-6.7.0.tar.gz", hash = "sha256:74b0dcf9a79188948f61f456bd1bf67ffa676a5d388aba1c76bff516566d7084"},
+]
 six = [
     {file = "six-1.15.0-py2.py3-none-any.whl", hash = "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"},
     {file = "six-1.15.0.tar.gz", hash = "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"},
 ]
 slack-sdk = [
-    {file = "slack_sdk-3.4.2-py2.py3-none-any.whl", hash = "sha256:5e4f89971e8329a81f57e621e1ea273b8eda67797eb431355e384c296be82553"},
-    {file = "slack_sdk-3.4.2.tar.gz", hash = "sha256:befc1365df93b84eac4592b9a2183411a748ecf662f5c51ce2fa7fdc3f5ee89f"},
+    {file = "slack_sdk-3.5.0-py2.py3-none-any.whl", hash = "sha256:66db2e834e397af4ccb0da9f7ab8aeb6f65a81308e32a6f59e7eafef23f4dbeb"},
+    {file = "slack_sdk-3.5.0.tar.gz", hash = "sha256:b1748fe130f46d9a8595b9260bc9deb25727a272043b1a8240a935e3c759ac38"},
+]
+starkbank-ecdsa = [
+    {file = "starkbank-ecdsa-1.1.0.tar.gz", hash = "sha256:423f81bb55c896a3c85ee98ac7da98826721eaee918f5c0c1dfff99e1972da0c"},
 ]
 uritemplate = [
     {file = "uritemplate-3.0.1-py2.py3-none-any.whl", hash = "sha256:07620c3f3f8eed1f12600845892b0e036a2420acf513c53f7de0abd911a5894f"},
