@@ -1,22 +1,11 @@
 import logging
 
-import firebase_admin
 from box import Box
-from firebase_admin import credentials
-from firebase_admin import firestore
-
-from message_templates import generate_new_reservation_slack_message
-from slack_message import send_slack_message
-
-# Use the application default credentials
-
-cred = credentials.ApplicationDefault()
-firebase_admin.initialize_app(cred, {
-    'projectId': "trentiemeciel",
-})
+from core.firestore_client import db
+from core.slack_message import send_slack_message
+from core.tpl import render
 
 log = logging.getLogger(__name__)
-db = firestore.client()
 
 
 def from_firestore(event, context):
@@ -51,7 +40,7 @@ def push_new_reservation_request_to_slack(doc_path, event):
         "pax": pax,
         "request": request
     }
-    txt = generate_new_reservation_slack_message(data)
+    txt = render("new_reservation_fr.txt", data)
 
     send_slack_message(txt)
 
