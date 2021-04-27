@@ -17,7 +17,7 @@ steps:
     - --source=.
     - --region=europe-west3
     - --entry-point=from_firestore
-    - --runtime=python38
+    - --runtime=python39
     - --memory=128
     - --trigger-event=providers/cloud.firestore/eventTypes/document.create
     - --trigger-resource=projects/trentiemeciel/databases/(default)/documents/pax/{paxId}/requests/{requestId}
