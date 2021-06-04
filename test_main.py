@@ -4,8 +4,8 @@ import dotenv
 import pytest
 from box import Box
 from core import firestore_client
+from google.cloud.firestore_v1 import Client, DocumentSnapshot, DocumentReference
 from mockito import mock
-from google.cloud.firestore_v1 import Client, CollectionReference, DocumentSnapshot, Transaction, DocumentReference
 
 PARIS_TZ = timezone(timedelta(hours=2))
 
