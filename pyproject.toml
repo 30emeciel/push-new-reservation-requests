@@ -7,7 +7,7 @@ authors = ["Alyosha <alyosha@30emeciel.fr>"]
 [tool.poetry.dependencies]
 python = "^3.9"
 python-box = "^5.3.0"
-core = { git = "https://github.com/30emeciel/py-core.git", branch="v2"}
+core = { git = "https://github.com/30emeciel/py-core.git", branch="4"}
 
 
 [tool.poetry.dev-dependencies]
